@@ -11,39 +11,78 @@ class MyGoogleLikeApp extends StatelessWidget {
       title: 'Google-like App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(),
+      home: GoogleHomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
+class GoogleHomePage extends StatefulWidget {
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _GoogleHomePageState createState() => _GoogleHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _GoogleHomePageState extends State<GoogleHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+        appBar: AppBar(
         title: Text('Google-like App'),
+    actions: <Widget>[
+    IconButton(
+    icon: Icon(Icons.search),
+    onPressed: () {
+    // Implement search functionality
+    },
+    ),
+    IconButton(
+    icon: Icon(Icons.more_vert),
+    onPressed: () {
+    // Implement more options
+    },
+    ),
+    ],
+    ),
+    drawer: Drawer(
+    child: ListView(
+    padding: EdgeInsets.zero,
+    children
+        : <Widget>[
+      DrawerHeader(
+        decoration: BoxDecoration(
+          color: Colors.blue,
+        ),
+        child: Text(
+          'Drawer Header',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 24,
+          ),
+        ),
       ),
+      ListTile(
+        leading: Icon(Icons.message),
+        title: Text('Messages'),
+      ),
+      ListTile(
+        leading: Icon(Icons.account_circle),
+        title: Text('Profile'),
+      ),
+      ListTile(
+        leading: Icon(Icons.settings),
+        title: Text('Settings'),
+      ),
+    ],
+    ),
+    ),
       body: ListView.builder(
-        itemCount: 10,
+        itemCount: 20,
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text('Item $index'),
-            subtitle: Text('Description of item $index'),
+            title: Text('Item ${index + 1}'),
+            subtitle: Text('Subtitle of Item ${index + 1}'),
           );
         },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Add your action code here
-        },
-        child: Icon(Icons.add),
       ),
     );
   }
