@@ -1,82 +1,77 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(GoogleAppClone());
+  runApp(MyApp());
 }
 
-class GoogleAppClone extends StatelessWidget {
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Google App Clone',
+      title: 'Google Search UI Clone',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: GoogleHomePage(),
+      home: MyHomePage(),
     );
   }
 }
 
-class GoogleHomePage extends StatefulWidget {
-  @override
-  _GoogleHomePageState createState() => _GoogleHomePageState();
-}
-
-class _GoogleHomePageState extends State<GoogleHomePage> {
+class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Google App Clone'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () {
-              // TODO: Implement search functionality
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.more_vert),
-            onPressed: () {
-              // TODO: Implement more options
-            },
+        backgroundColor: Colors.black,
+        body: Center(
+        child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+        Expanded(
+        flex: 2,
+        child: Container(), // This can hold any top space content or app bar
+    ),
+    Expanded(
+    flex: 3,
+    child: Image.asset(
+    'assets/google_logo.png', // Make sure to add Google logo asset
+    width: 200,
+    ),
+    ),
+    Padding(
+    padding: const EdgeInsets.all(15.0),
+    child: TextField(
+    decoration: InputDecoration(
+    filled: true,
+    fillColor: Colors.white,
+    hintText: 'Search Google or type a URL',
+    prefixIcon: Icon(Icons.search),
+    border: OutlineInputBorder(
+    borderRadius: BorderRadius.circular
+      (30),
+      borderSide: BorderSide.none,
+    ),
+    ),
+    ),
+    ),
+          Expanded(
+            flex: 5,
+            child: Container(), // This can be used for other UI elements below the search bar
           ),
         ],
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
+        ),
+        ),
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.black,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text(
-                'Navigation',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.message),
-              title: Text('Messages'),
-            ),
-            ListTile(
-              leading: Icon(Icons.account_circle),
-              title: Text('Profile'),
-            ),
-            ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('Settings'),
-            ),
+            IconButton(icon: Icon(Icons.home, color: Colors.white), onPressed: () {}),
+            IconButton(icon: Icon(Icons.star, color: Colors.white), onPressed: () {}),
+            IconButton(icon: Icon(Icons.share, color: Colors.white), onPressed: () {}),
+            IconButton(icon: Icon(Icons.notifications, color: Colors.white), onPressed: () {}),
           ],
         ),
-      ),
-      body: Center(
-        child: Text('Welcome to Google App Clone'),
       ),
     );
   }
