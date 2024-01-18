@@ -22,45 +22,64 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.black,
-        body: Center(
+      backgroundColor: Colors.black,
+      body: Center(
         child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-        Expanded(
-        flex: 2,
-        child: Container(), // This can hold any top space content or app bar
-    ),
-    Expanded(
-    flex: 3,
-    child: Image.asset(
-    'assets/google_logo.png', // Make sure to add Google logo asset
-    width: 200,
-    ),
-    ),
-    Padding(
-    padding: const EdgeInsets.all(15.0),
-    child: TextField(
-    decoration: InputDecoration(
-    filled: true,
-    fillColor: Colors.white,
-    hintText: 'Search Google or type a URL',
-    prefixIcon: Icon(Icons.search),
-    border: OutlineInputBorder(
-    borderRadius: BorderRadius.circular
-      (30),
-      borderSide: BorderSide.none,
-    ),
-    ),
-    ),
-    ),
-          Expanded(
-            flex: 5,
-            child: Container(), // This can be used for other UI elements below the search bar
-          ),
-        ],
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Expanded(
+              flex: 2,
+              child: Container(), // This can hold any top space content or app bar
+            ),
+            Expanded(
+              flex: 3,
+              child: Image.asset(
+                'assets/google_logo.png', // Make sure to add Google logo asset
+                width: 200,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        hintText: 'Search Google or type a URL',
+                        prefixIcon: Icon(Icons.search),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 10), // Add some space between the text field and the button
+                  ElevatedButton(
+                    onPressed: () {
+                      // Implement search functionality
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.blue, // Button color
+                      onPrimary: Colors.white, // Text color
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                    child: Text('Search'),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              flex: 5,
+              child: Container(), // This can be used for other UI elements below the search bar
+            ),
+          ],
         ),
-        ),
+      ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.black,
         child: Row(
