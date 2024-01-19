@@ -19,66 +19,73 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget {
+  final TextEditingController searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Expanded(
-              flex: 2,
-              child: Container(), // This can hold any top space content or app bar
-            ),
-            Expanded(
-              flex: 3,
-              child: Image.asset(
-                'assets/google_logo.png', // Make sure to add Google logo asset
-                width: 200,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.white,
-                        hintText: 'Search Google or type a URL',
-                        prefixIcon: Icon(Icons.search),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide: BorderSide.none,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 10), // Add some space between the text field and the button
-                  ElevatedButton(
-                    onPressed: () {
-                      // Implement search functionality
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.blue, // Button color
-                      onPrimary: Colors.white, // Text color
-                      shape: RoundedRectangleBorder(
+      body: Column(
+        children: <Widget>[
+          SizedBox(height: 80), // Provides spacing at the top
+          Image.asset(
+            'assets/google_logo.png', // Make sure to add the Google logo asset
+            width: 200,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: TextField(
+                    controller: searchController,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      hintText: 'Search Google or type a URL',
+                      prefixIcon: Icon(Icons.search),
+                      border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide.none,
                       ),
                     ),
-                    child: Text('Search'),
                   ),
-                ],
-              ),
+                ),
+                SizedBox(width: 10), // Add some space between the text field and the button
+                ElevatedButton(
+                  onPressed: () {
+                    // Implement search functionality
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.blue, // Button color
+                    onPrimary: Colors.white, // Text color
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                  child: Text('Search'),
+                ),
+              ],
             ),
-            Expanded(
-              flex: 5,
-              child: Container(), // This can be used for other UI elements below the search bar
+          ),
+          Container(
+            height: 60,
+            child: ListView(
+              // This creates a horizontal scrollable list of bookmarks.
+              scrollDirection: Axis.horizontal,
+              children: List.generate(10, (index) {
+                return Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(Icons.folder, color: Colors.white),
+                );
+              }),
             ),
-          ],
-        ),
+          ),
+          // Remaining space is filled with other UI elements below the bookmarks
+          Expanded(
+            child: Container(),
+          ),
+        ],
       ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.black,
