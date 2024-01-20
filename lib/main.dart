@@ -28,10 +28,12 @@ class MyHomePage extends StatelessWidget {
       body: Column(
         children: <Widget>[
           SizedBox(height: 80), // Provides spacing at the top
-          Image.asset(
+         /* Image.asset(
             'assets/google_logo.png', // Make sure to add the Google logo asset
             width: 200,
-          ),
+          ),*/
+          Text("Google"),
+
           Padding(
             padding: const EdgeInsets.all(15.0),
             child: Row(
