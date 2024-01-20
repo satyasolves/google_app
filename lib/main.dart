@@ -28,12 +28,15 @@ class MyHomePage extends StatelessWidget {
       body: Column(
         children: <Widget>[
           SizedBox(height: 80), // Provides spacing at the top
-         /* Image.asset(
-            'assets/google_logo.png', // Make sure to add the Google logo asset
-            width: 200,
-          ),*/
-          Text("Google"),
-
+          Text(
+            'Google',
+            style: TextStyle(
+              fontSize: 72, // Adjust the size to fit your needs
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+              letterSpacing: -2.0, // Adjust letter spacing to match Google's logo
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.all(15.0),
             child: Row(
