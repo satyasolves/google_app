@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatelessWidget {
   final TextEditingController searchController = TextEditingController();
+  final double commonPadding = 15.0;
 
   @override
   Widget build(BuildContext context) {
@@ -27,82 +28,116 @@ class MyHomePage extends StatelessWidget {
       backgroundColor: Colors.black,
       body: Column(
         children: <Widget>[
-          SizedBox(height: 80), // Provides spacing at the top
-          Text(
-            'Google',
-            style: TextStyle(
-              fontSize: 72, // Adjust the size to fit your needs
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              letterSpacing: -2.0, // Adjust letter spacing to match Google's logo
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: TextField(
-                    controller: searchController,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white,
-                      hintText: 'Search Google or type a URL',
-                      prefixIcon: Icon(Icons.search),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 10), // Add some space between the text field and the button
-                ElevatedButton(
-                  onPressed: () {
-                    // Implement search functionality
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.blue, // Button color
-                    onPrimary: Colors.white, // Text color
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                  ),
-                  child: Text('Search'),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            height: 60,
-            child: ListView(
-              // This creates a horizontal scrollable list of bookmarks.
-              scrollDirection: Axis.horizontal,
-              children: List.generate(10, (index) {
-                return Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Icon(Icons.folder, color: Colors.white),
-                );
-              }),
-            ),
-          ),
-          // Remaining space is filled with other UI elements below the bookmarks
+          Spacer(flex: 2),
+          GoogleTextLogo(),
+          Spacer(),
+          SearchBar(controller: searchController),
+          BookmarkBar(iconCount: 10),
+          Spacer(flex: 5),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBarWidget(),
+    );
+  }
+}
+
+class GoogleTextLogo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      'Google',
+      style: TextStyle(
+        fontSize: 72,
+        fontWeight: FontWeight.bold,
+        color: Colors.white,
+        letterSpacing: -2.0,
+      ),
+    );
+  }
+}
+
+class SearchBar extends StatelessWidget {
+  const SearchBar({Key? key, required this.controller}) : super(key: key);
+
+  final TextEditingController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: Row(
+        children: <Widget>[
           Expanded(
-            child: Container(),
+            child: TextField(
+              controller: controller,
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+                hintText: 'Search Google or type a URL',
+                prefixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(width: 10),
+          ElevatedButton(
+            onPressed: () {
+              // Implement search functionality
+            },
+            style: ElevatedButton.styleFrom(
+              primary: Colors.blue,
+              onPrimary: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30),
+              ),
+            ),
+            child: Text('Search'),
           ),
         ],
       ),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.black,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            IconButton(icon: Icon(Icons.home, color: Colors.white), onPressed: () {}),
-            IconButton(icon: Icon(Icons.star, color: Colors.white), onPressed: () {}),
-            IconButton(icon: Icon(Icons.share, color: Colors.white), onPressed: () {}),
-            IconButton(icon: Icon(Icons.notifications, color: Colors.white), onPressed: () {}),
-          ],
-        ),
+    );
+  }
+}
+
+class BookmarkBar extends StatelessWidget {
+  const BookmarkBar({Key? key, required this.iconCount}) : super(key: key);
+
+  final int iconCount;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 60,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: iconCount,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
+            child: Icon(Icons.folder, color: Colors.white),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class BottomNavigationBarWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BottomAppBar(
+      color: Colors.black,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          IconButton(icon: Icon(Icons.home, color: Colors.white), onPressed: () {}),
+          IconButton(icon: Icon(Icons.star, color: Colors.white), onPressed: () {}),
+          IconButton(icon: Icon(Icons.share, color: Colors.white), onPressed: () {}),
+          IconButton(icon: Icon(Icons.notifications, color: Colors.white), onPressed: () {}),
+        ],
       ),
     );
   }
