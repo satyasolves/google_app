@@ -14,6 +14,7 @@ class MyGoogleApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: GoogleHomePage(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -22,15 +23,16 @@ class GoogleHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF353535), // Body background color
+      backgroundColor: Colors.white, // Google's background color is white
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             GoogleLogo(),
-            SizedBox(height: 20), // Space between logo and search field
+            SizedBox(height: 30), // Space between logo and search field
             SearchBar(),
-            // Additional UI elements can be added here
+            SizedBox(height: 20), // Space between search field and buttons
+            SearchButtons(),
           ],
         ),
       ),
@@ -44,8 +46,8 @@ class GoogleLogo extends StatelessWidget {
     return Text(
       'Google',
       style: TextStyle(
-        color: Colors.white,
-        fontSize: 90, // Adjust size to match your design
+        color: Colors.black,
+        fontSize: 90, // Adjust size to match Google's logo
         fontWeight: FontWeight.bold,
       ),
     );
@@ -56,7 +58,7 @@ class SearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 600, // Adjust width to match your design
+      width: 600, // Adjust width to match Google's search bar
       child: TextField(
         style: TextStyle(fontSize: 18, color: Colors.black),
         decoration: InputDecoration(
@@ -70,6 +72,33 @@ class SearchBar extends StatelessWidget {
           ),
           prefixIcon: Icon(Icons.search, color: Colors.grey),
         ),
+      ),
+    );
+  }
+}
+
+class SearchButtons extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        _searchButton('Google Search'),
+        SizedBox(width: 10), // Space between buttons
+        _searchButton('I\'m Feeling Lucky'),
+      ],
+    );
+  }
+
+  Widget _searchButton(String text) {
+    return OutlinedButton(
+      onPressed: () {
+        // Implement search functionality
+      },
+      child: Text(text),
+      style: OutlinedButton.styleFrom(
+        primary: Colors.grey, // Text color
+        side: BorderSide(color: Colors.grey), // Border color
       ),
     );
   }
