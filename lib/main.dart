@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'search_results_page.dart';
 
 void main() {
   runApp(MyGoogleCloneApp());
@@ -14,20 +15,7 @@ class MyGoogleCloneApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      darkTheme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: Colors.grey[900],
-        textTheme: TextTheme(
-          headline1: TextStyle(color: Colors.white, fontFamily: 'Roboto'),
-        ),
-        inputDecorationTheme: InputDecorationTheme(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(32),
-            borderSide: BorderSide.none,
-          ),
-          filled: true,
-          fillColor: Colors.grey[800],
-        ),
-      ),
+      darkTheme: ThemeData.dark(),
       themeMode: ThemeMode.dark,
       home: GoogleHomePage(),
     );
@@ -35,6 +23,8 @@ class MyGoogleCloneApp extends StatelessWidget {
 }
 
 class GoogleHomePage extends StatelessWidget {
+  final TextEditingController searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,9 +36,9 @@ class GoogleHomePage extends StatelessWidget {
               SizedBox(height: MediaQuery.of(context).size.height * 0.2),
               GoogleLogo(),
               SizedBox(height: 30),
-              SearchBar(),
+              SearchBar(controller: searchController),
               SizedBox(height: 30),
-              SearchButtons(),
+              SearchButtons(controller: searchController),
             ],
           ),
         ),
@@ -71,11 +61,16 @@ class GoogleLogo extends StatelessWidget {
 }
 
 class SearchBar extends StatelessWidget {
+  final TextEditingController controller;
+
+  SearchBar({required this.controller});
+
   @override
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.5,
       child: TextField(
+        controller: controller,
         decoration: InputDecoration(
           hintText: 'Search Google or type a URL',
           hintStyle: TextStyle(color: Colors.grey[500]),
@@ -89,26 +84,43 @@ class SearchBar extends StatelessWidget {
 }
 
 class SearchButtons extends StatelessWidget {
+  final TextEditingController controller;
+
+  SearchButtons({required this.controller});
+
+  void _search(BuildContext context) {
+    if (controller.text.isNotEmpty) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => SearchResultsPage(query: controller.text),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        _searchButton(context, 'Google Search'),
+        OutlinedButton(
+          onPressed: () => _search(context),
+          child: Text('Google Search'),
+          style: OutlinedButton.styleFrom(
+            primary: Colors.white,
+            side: BorderSide(color: Colors.transparent),
+          ),
+        ),
         SizedBox(width: 8),
-        _searchButton(context, "I'm Feeling Lucky"),
+        OutlinedButton(
+          onPressed: () => _search(context),
+          child: Text("I'm Feeling Lucky"),
+          style: OutlinedButton.styleFrom(
+            primary: Colors.white,
+            side: BorderSide(color: Colors.transparent),
+          ),
+        ),
       ],
-    );
-  }
-
-  Widget _searchButton(BuildContext context, String text) {
-    return OutlinedButton(
-      onPressed: () {},
-      child: Text(text),
-      style: OutlinedButton.styleFrom(
-        primary: Colors.white,
-        side: BorderSide(color: Colors.transparent),
-      ),
     );
   }
 }
