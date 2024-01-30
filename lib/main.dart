@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'search_results_page.dart';
 
-void main() {
-  runApp(MyGoogleCloneApp());
-}
+void main() => runApp(MyGoogleCloneApp());
 
 class MyGoogleCloneApp extends StatelessWidget {
   @override
@@ -11,19 +9,28 @@ class MyGoogleCloneApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Google Clone',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      darkTheme: ThemeData.dark(),
-      themeMode: ThemeMode.dark,
+      theme: ThemeData.dark(),
       home: GoogleHomePage(),
     );
   }
 }
 
-class GoogleHomePage extends StatelessWidget {
-  final TextEditingController searchController = TextEditingController();
+class GoogleHomePage extends StatefulWidget {
+  @override
+  _GoogleHomePageState createState() => _GoogleHomePageState();
+}
+
+class _GoogleHomePageState extends State<GoogleHomePage> {
+  final TextEditingController _searchController = TextEditingController();
+
+  void _handleSearch() {
+    final query = _searchController.text;
+    if (query.isNotEmpty) {
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => SearchResultsPage(query: query),
+      ));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +41,11 @@ class GoogleHomePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               SizedBox(height: MediaQuery.of(context).size.height * 0.2),
-              GoogleLogo(),
+              const GoogleLogo(),
               SizedBox(height: 30),
-              SearchBar(controller: searchController),
+              SearchBar(controller: _searchController),
               SizedBox(height: 30),
-              SearchButtons(controller: searchController),
+              SearchButtons(onSearch: _handleSearch),
             ],
           ),
         ),
@@ -48,14 +55,13 @@ class GoogleHomePage extends StatelessWidget {
 }
 
 class GoogleLogo extends StatelessWidget {
+  const GoogleLogo();
+
   @override
   Widget build(BuildContext context) {
     return Text(
       'Google',
-      style: Theme.of(context).textTheme.headline1!.copyWith(
-        fontSize: 72,
-        fontWeight: FontWeight.w500,
-      ),
+      style: Theme.of(context).textTheme.headline4!.copyWith(fontWeight: FontWeight.w500),
     );
   }
 }
@@ -63,7 +69,7 @@ class GoogleLogo extends StatelessWidget {
 class SearchBar extends StatelessWidget {
   final TextEditingController controller;
 
-  SearchBar({required this.controller});
+  const SearchBar({required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +79,6 @@ class SearchBar extends StatelessWidget {
         controller: controller,
         decoration: InputDecoration(
           hintText: 'Search Google or type a URL',
-          hintStyle: TextStyle(color: Colors.grey[500]),
           prefixIcon: Icon(Icons.search, color: Colors.grey[500]),
           suffixIcon: Icon(Icons.mic, color: Colors.grey[500]),
           contentPadding: EdgeInsets.symmetric(vertical: 18),
@@ -84,42 +89,18 @@ class SearchBar extends StatelessWidget {
 }
 
 class SearchButtons extends StatelessWidget {
-  final TextEditingController controller;
+  final VoidCallback onSearch;
 
-  SearchButtons({required this.controller});
-
-  void _search(BuildContext context) {
-    if (controller.text.isNotEmpty) {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => SearchResultsPage(query: controller.text),
-        ),
-      );
-    }
-  }
+  const SearchButtons({required this.onSearch});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        OutlinedButton(
-          onPressed: () => _search(context),
-          child: Text('Google Search'),
-          style: OutlinedButton.styleFrom(
-            primary: Colors.white,
-            side: BorderSide(color: Colors.transparent),
-          ),
-        ),
-        SizedBox(width: 8),
-        OutlinedButton(
-          onPressed: () => _search(context),
-          child: Text("I'm Feeling Lucky"),
-          style: OutlinedButton.styleFrom(
-            primary: Colors.white,
-            side: BorderSide(color: Colors.transparent),
-          ),
-        ),
+        OutlinedButton(onPressed: onSearch, child: Text('Google Search')),
+        SizedBox(width: 10),
+        OutlinedButton(onPressed: onSearch, child: Text("I'm Feeling Lucky")),
       ],
     );
   }
