@@ -1,20 +1,26 @@
 import 'package:flutter/material.dart';
 
-class SearchResultsPage extends StatelessWidget {
+// SearchResultsPage displays search results like Google. Currently, it uses
+// mock data to simulate search results.
+class SearchResultsPage extends StatefulWidget {
   final String query;
 
   const SearchResultsPage({Key? key, required this.query}) : super(key: key);
 
-  // This function simulates fetching search results from an API.
-  Future<List<String>> _fetchSearchResults(String query) async {
-    // In a real app, you would make an HTTP request to a search API here.
-    // For this example, we simulate an API response with a delayed future.
-    await Future.delayed(Duration(seconds: 2)); // simulate network delay
+  @override
+  _SearchResultsPageState createState() => _SearchResultsPageState();
+}
 
-    // Generating mock results based on the query.
-    return List.generate(
+class _SearchResultsPageState extends State<SearchResultsPage> {
+  // In a real app, this would be replaced with actual data from a search API.
+  late final List<String> mockResults;
+
+  @override
+  void initState() {
+    super.initState();
+    mockResults = List.generate(
       10,
-          (index) => 'Result ${index + 1} for query "$query"',
+          (index) => 'Result ${index + 1} for query "${widget.query}"',
     );
   }
 
@@ -22,33 +28,45 @@ class SearchResultsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Search Results for "$query"'),
+        title: const Text('Search Results'),
       ),
-      body: FutureBuilder<List<String>>(
-        future: _fetchSearchResults(query),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No results found for "$query"'));
-          }
+      body: SearchResultList(mockResults: mockResults),
+    );
+  }
+}
 
-          final results = snapshot.data!;
+// Extracting the results list into its own widget for better code organization.
+class SearchResultList extends StatelessWidget {
+  final List<String> mockResults;
 
-          return ListView.builder(
-            itemCount: results.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                leading: Icon(Icons.search),
-                title: Text(results[index]),
-                subtitle: Text('https://www.example.com/search?q=${Uri.encodeComponent(query)}'),
-              );
-            },
-          );
-        },
-      ),
+  const SearchResultList({Key? key, required this.mockResults}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: mockResults.length,
+      itemBuilder: (BuildContext context, int index) {
+        return SearchResultItem(result: mockResults[index]);
+      },
+    );
+  }
+}
+
+// Extracting individual search result into its own widget for better readability.
+class SearchResultItem extends StatelessWidget {
+  final String result;
+
+  const SearchResultItem({Key? key, required this.result}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: const Icon(Icons.search),
+      title: Text(result),
+      subtitle: const Text('https://www.example.com'),
+      onTap: () {
+        // Handle the tap action, possibly opening a web page or another route.
+      },
     );
   }
 }
